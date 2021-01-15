@@ -1,0 +1,6 @@
+.status__element {
+  display: none;
+  min-height: 25px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+}

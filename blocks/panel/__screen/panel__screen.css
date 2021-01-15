@@ -1,0 +1,8 @@
+.panel__screen {
+  width: calc(357px - 142px);
+  min-height: calc(323px - 156px);
+  box-sizing: border-box;
+  border: white 3px solid;
+  border-radius: 10px;
+  grid-column: 1/3;
+}

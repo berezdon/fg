@@ -1,0 +1,17 @@
+.microwave {
+  display: flex;
+  justify-content: center;
+  background-image: url("../../images/panel.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 404px;
+  min-height: 1084px;
+}
+
+@media screen and (max-width: 403px){
+  .microwave {
+    width: 100%;
+    background-size: 100%;
+
+  }
+}

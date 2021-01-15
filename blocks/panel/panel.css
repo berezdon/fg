@@ -1,0 +1,12 @@
+.panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: min-content;
+  justify-items: center;
+  align-items: center;
+  width: calc(357px - 142px);
+  min-height: calc(890px - 156px);
+  padding: 36px 0 0;
+  margin: 0;
+  list-style-type: none;
+}

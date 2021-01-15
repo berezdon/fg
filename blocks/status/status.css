@@ -1,0 +1,9 @@
+.status {
+  display: grid;
+  grid-template-columns: 25px 32px 25px;
+  column-gap: 5px;
+  justify-items: center;
+  list-style-type: none;
+  padding: 5px 0 0;
+  margin: 0;
+}

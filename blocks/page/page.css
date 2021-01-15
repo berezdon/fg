@@ -1,0 +1,10 @@
+.page {
+  width: 100%;
+  min-width: 320px;
+  display: flex;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

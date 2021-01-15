@@ -1,0 +1,12 @@
+.watch {
+  display: grid;
+  grid-template-columns: 1fr 10px 1fr;
+  justify-items: center;
+  column-gap: 5px;
+  margin: 0;
+  padding: 0;
+  color: white;
+  font-size: 60px;
+  line-height: 1;
+  list-style-type: none;
+}

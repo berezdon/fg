@@ -1,0 +1,8 @@
+.panel__screen-elements {
+  display: grid;
+  grid-template-rows: 30px 1fr 30px;
+  min-height: calc(323px - 156px);
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
