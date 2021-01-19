@@ -14,6 +14,7 @@ let numberDef = 0;
 let defrostingStatus = false;
 let defrostingDef = "";
 let timeDefrosting = 0;
+let clickNumber = 0;
 
 defrosting.addEventListener("mousedown", function () {
   if (numberDef < 4) {
@@ -31,6 +32,7 @@ defrosting.addEventListener("mousedown", function () {
   defrostingDef = "dEF" + numberDef;
   numberDefLeft = 0;
   numberDefRight = 0;
+  clickNumber = 0;
 });
 
 buttonPlus.addEventListener("mousedown", function () {
@@ -60,6 +62,7 @@ buttonPlus.addEventListener("mousedown", function () {
     watchColon.style.display = "block";
     watchColon.textContent = ".";
     watchRight.textContent = numberDefRight;
+    clickNumber = 0;
   }
 });
 
@@ -93,34 +96,38 @@ buttonMinus.addEventListener("mousedown", function () {
     watchColon.style.display = "block";
     watchColon.textContent = ".";
     watchRight.textContent = numberDefRight;
+    clickNumber = 0;
   }
 });
 
 buttonStart.addEventListener("mousedown", function () {
-  if (defrostingStatus) {
-    if (watchLeft.textContent !== "dE") {
-      let mass = Number(watchLeft.textContent) + Number(watchRight.textContent) * 0.1;
-      switch (defrostingDef) {
-        case "dEF1":
-          timeDefrosting = Math.floor((2.76 * mass * 20 + 1.47 * mass * 18 + 333.5 * mass * 0.05) / 0.280);
-          break
-        case "dEF2":
-          timeDefrosting = Math.floor((3.68 * mass * 20 + 1.72 * mass * 18 + 333.5 * mass * 0.05) / 0.280);
-          break
-        case "dEF3":
-          timeDefrosting = Math.floor((3.35 * mass * 20 + 1.67 * mass * 18 + 333.5 * mass * 0.05) / 0.280);
-          break
-        case "dEF4":
-          timeDefrosting = Math.floor((0.65 * mass * 20 + 0.32 * mass * 18 + 333.5 * mass * 0.05) / 0.280);
-          break
+  clickNumber += 1;
+  if (clickNumber === 1) {
+    if (defrostingStatus) {
+      if (watchLeft.textContent !== "dE") {
+        let mass = Number(watchLeft.textContent) + Number(watchRight.textContent) * 0.1;
+        switch (defrostingDef) {
+          case "dEF1":
+            timeDefrosting = Math.floor((2.76 * mass * 20 + 1.47 * mass * 18 + 333.5 * mass * 0.05) / 0.280);
+            break
+          case "dEF2":
+            timeDefrosting = Math.floor((3.68 * mass * 20 + 1.72 * mass * 18 + 333.5 * mass * 0.05) / 0.280);
+            break
+          case "dEF3":
+            timeDefrosting = Math.floor((3.35 * mass * 20 + 1.67 * mass * 18 + 333.5 * mass * 0.05) / 0.280);
+            break
+          case "dEF4":
+            timeDefrosting = Math.floor((0.65 * mass * 20 + 0.32 * mass * 18 + 333.5 * mass * 0.05) / 0.280);
+            break
+        }
+        console.log(timeDefrosting);
       }
-      console.log(timeDefrosting);
+      kgStatusImg.style.display = "none";
+      watchLeft.textContent = String(Math.floor(timeDefrosting / 60));
+      watchColon.textContent = ":";
+      if (timeDefrosting % 60 < 10) watchRight.textContent = "0" + String(timeDefrosting % 60);
+      else watchRight.textContent = String(timeDefrosting % 60);
     }
-    kgStatusImg.style.display = "none";
-    watchLeft.textContent = String(Math.floor(timeDefrosting / 60));
-    watchColon.textContent = ":";
-    if (timeDefrosting % 60 < 10) watchRight.textContent = "0" + String(timeDefrosting % 60);
-    else watchRight.textContent = String(timeDefrosting % 60);
   }
 });
 
@@ -137,4 +144,5 @@ buttonStop.addEventListener("mousedown", function () {
   watchRight.textContent = "--";
   defrostingStatusImg.style.display = "none";
   kgStatusImg.style.display = "none";
+  clickNumber = 0;
 });
