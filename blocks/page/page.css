@@ -9,3 +9,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+@-moz-document url-prefix(){
+  .page {
+    transform: scale(0.7);
+  }
+}
