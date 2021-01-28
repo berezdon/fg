@@ -120,7 +120,6 @@ buttonStart.addEventListener("mousedown", function () {
             timeDefrosting = Math.floor((0.65 * mass * 20 + 0.32 * mass * 18 + 333.5 * mass * 0.05) / 0.280);
             break
         }
-        console.log(timeDefrosting);
       }
       kgStatusImg.style.display = "none";
       watchLeft.textContent = String(Math.floor(timeDefrosting / 60));
