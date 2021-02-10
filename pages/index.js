@@ -145,3 +145,5 @@ buttonStop.addEventListener("mousedown", function () {
   kgStatusImg.style.display = "none";
   clickNumber = 0;
 });
+
+let a = 2;
