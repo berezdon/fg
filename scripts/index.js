@@ -4,8 +4,10 @@ statusActive(watchColon);
 const watchRight = document.querySelector(".watch__right");
 const defrosting = document.querySelector(".panel__button_defrosting");
 const microwaves = document.querySelector(".panel__button_microwaves");
+const autoPreparation = document.querySelector(".panel__button_auto-preparation");
 const defrostingStatusImg = document.querySelector(".status__element_defrosting-status");
 const microwavesStatusImg = document.querySelector(".status__element_microwaves-status");
+const autoPreparationStatusImg = document.querySelector(".status__element_auto-preparation-status");
 const kgStatusImg = document.querySelector(".status__element_kg-status");
 const powerStatusImg = document.querySelector(".status__element_power-status");
 const plusMinusStatusImg = document.querySelector(".status__element_minus-plus-status");
@@ -18,6 +20,7 @@ let numberDefRight = 0;
 let numberDef = 0;
 let microwavesPow = 0;
 let defrostingStatus = false;
+let autoPreparationStatus = false;
 let microwavesStatusPower = false;
 let microwavesStatusTime = false;
 let defrostingDef = "";
@@ -32,12 +35,9 @@ function statusRemove(img) {
   img.classList.remove('status__element_active');
 }
 
-function funDefrosting() {
-  if (numberDef === 0) funButtonStop();
+function funForModes() {
   statusRemove(kgStatusImg);
   statusRemove(plusMinusStatusImg);
-  defrostingStatus = true;
-  statusActive(defrostingStatusImg);
   watchLeft.textContent = "dE";
   statusRemove(watchColon);
   if (numberDef < 4) {
@@ -51,6 +51,13 @@ function funDefrosting() {
   numberDefLeft = 0;
   numberDefRight = 0;
   clickNumber = 0;
+}
+
+function funDefrosting() {
+  if (!defrostingStatus) funButtonStop();
+  funForModes();
+  defrostingStatus = true;
+  statusActive(defrostingStatusImg);
 }
 
 function plus(numLeft, numRight, step) {
@@ -191,16 +198,35 @@ function funMicrowavesStart() {
   statusRemove(plusMinusStatusImg);
 }
 
+function funAutoPreparation() {
+  if (!autoPreparationStatus) funButtonStop();
+  funForModes();
+  autoPreparationStatus = true;
+  statusActive(autoPreparationStatusImg);
+}
+
+function funAutoPreparationStart() {
+  if (watchLeft.textContent !== "dE") {
+    statusRemove(kgStatusImg);
+    statusRemove(plusMinusStatusImg);
+    watchLeft.textContent = 'W';
+    statusRemove(watchColon);
+    watchRight.textContent = 'ait';
+  }
+}
+
 function funButtonPlus() {
   if (defrostingStatus) funDefrostingPlus();
   if (microwavesStatusPower) funMicrowavesPowerPlus();
   if (microwavesStatusTime) funMicrowavesTimePlus();
+  if (autoPreparationStatus) funDefrostingPlus();
 }
 
 function funButtonMinus() {
   if (defrostingStatus) funDefrostingMinus();
   if (microwavesStatusPower) funMicrowavesPowerMinus();
   if (microwavesStatusTime) funMicrowavesTimeMinus();
+  if (autoPreparationStatus) funDefrostingMinus();
 }
 
 function funButtonStart() {
@@ -211,6 +237,9 @@ function funButtonStart() {
   if (microwavesStatusTime && watchLeft.textContent !== '--') {
     funMicrowavesStart();
   }
+  if (autoPreparationStatus) {
+    if (clickNumber === 1) funAutoPreparationStart();
+  }
 }
 
 function funButtonStop() {
@@ -220,6 +249,7 @@ function funButtonStop() {
   defrostingStatus = false;
   microwavesStatusPower = false;
   microwavesStatusTime = false;
+  autoPreparationStatus = false;
   defrostingDef = "";
   timeDefrosting = 0;
   watchLeft.textContent = "--";
@@ -228,6 +258,7 @@ function funButtonStop() {
   watchRight.textContent = "--";
   statusRemove(defrostingStatusImg);
   statusRemove(microwavesStatusImg);
+  statusRemove(autoPreparationStatusImg);
   statusRemove(kgStatusImg);
   statusRemove(powerStatusImg);
   statusRemove(plusMinusStatusImg);
@@ -236,6 +267,7 @@ function funButtonStop() {
 
 defrosting.addEventListener("mousedown", funDefrosting);
 microwaves.addEventListener("mousedown", funMicrowaves);
+autoPreparation.addEventListener("mousedown", funAutoPreparation);
 buttonPlus.addEventListener("mousedown", funButtonPlus);
 buttonMinus.addEventListener("mousedown", funButtonMinus);
 buttonStart.addEventListener("mousedown", funButtonStart);
