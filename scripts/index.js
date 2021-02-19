@@ -16,17 +16,19 @@ const buttonPlus = document.querySelector(".panel__button_plus");
 const buttonStart = document.querySelector(".panel__button_start");
 const buttonStop = document.querySelector(".panel__button_stop");
 let numberDefLeft = 0;
-let numberDefRight = 0;
+let numberDefRight = 1;
 let numberDef = 0;
 let microwavesPow = 2;
 let defrostingStatus = false;
 let autoPreparationStatus = false;
 let microwavesStatusPower = false;
 let microwavesStatusTime = false;
-let kgStatus = false;
+let statusChanges = false;
 let defrostingDef = "";
 let timeDefrosting = 0;
 let clickNumber = 0;
+let watchLeftTime = '';
+let watchRightTime = '';
 const autoPreparationTime = {
   dEF1: {
     '0.1': 1.5,
@@ -69,7 +71,7 @@ function funForModes() {
   if (defrostingStatus) watchLeft.textContent = "dE";
   if (autoPreparationStatus) watchLeft.textContent = '';
   statusRemove(watchColon);
-  if (!kgStatus) {
+  if (!statusChanges) {
     if (numberDef < 4) {
       numberDef += 1;
     }
@@ -77,25 +79,20 @@ function funForModes() {
       numberDef = 1;
     }
   }
-  kgStatus = false;
+
   if (defrostingStatus) watchRight.textContent = "F" + numberDef;
   if (autoPreparationStatus) watchRight.textContent = numberDef;
   defrostingDef = "dEF" + numberDef;
-  numberDefLeft = 0;
-  if (numberDef === 3) numberDefRight = 1;
-  else numberDefRight = 0;
+  if (!statusChanges) {
+    numberDefLeft = 0;
+    if (numberDef === 3 && autoPreparationStatus) numberDefRight = 2;
+    else numberDefRight = 1;
+  }
+  statusChanges = false;
   clickNumber = 0;
 }
 
-function funDefrosting() {
-  if (!defrostingStatus) funButtonStop();
-  defrostingStatus = true;
-  funForModes();
-  statusActive(defrostingStatusImg);
-}
-
 function plus(numLeft, numRight, step) {
-  kgStatus = true;
   if (numberDefLeft < numLeft) {
     if (numberDefRight < numRight) numberDefRight += step;
     else {
@@ -103,15 +100,14 @@ function plus(numLeft, numRight, step) {
       numberDefLeft += 1;
     }
   } else {
-    if (numberDef === 3) numberDefRight = 2;
+    if (numberDef === 3 && autoPreparationStatus) numberDefRight = 2;
     else numberDefRight = step;
     numberDefLeft = 0;
   }
 }
 
 function minus(numLeft, numRight, step) {
-  kgStatus = true;
-  if (numberDef === 3) {
+  if (numberDef === 3 && autoPreparationStatus) {
     if (numberDefRight > 2) numberDefRight -= step;
     else {
       numberDefRight = numRight;
@@ -139,12 +135,20 @@ function minus(numLeft, numRight, step) {
   }
 }
 
+function funDefrosting() {
+  if (!defrostingStatus) funButtonStop();
+  defrostingStatus = true;
+  funForModes();
+  statusActive(defrostingStatusImg);
+}
+
 function funDefrostingPlus() {
-  if (defrostingDef !== "dEF4") plus(4, 9, 1);
-  else if (defrostingDef === "dEF4") {
+  if (defrostingDef !== "dEF4" && statusChanges) plus(4, 9, 1);
+  else if (defrostingDef === "dEF4" && statusChanges) {
     if (numberDefRight < 5) numberDefRight += 1;
     else numberDefRight = 1;
   }
+  statusChanges = true;
   statusActive(kgStatusImg);
   statusActive(plusMinusStatusImg);
   watchLeft.textContent = numberDefLeft;
@@ -155,11 +159,12 @@ function funDefrostingPlus() {
 }
 
 function funDefrostingMinus() {
-  if (defrostingDef !== "dEF4") minus(4, 9, 1);
-  else if (defrostingDef === "dEF4") {
+  if (defrostingDef !== "dEF4" && statusChanges) minus(4, 9, 1);
+  else if (defrostingDef === "dEF4" && statusChanges) {
     if (numberDefRight > 1) numberDefRight -= 1;
     else numberDefRight = 5;
   }
+  statusChanges = true;
   statusActive(kgStatusImg);
   statusActive(plusMinusStatusImg);
   watchLeft.textContent = numberDefLeft;
@@ -197,12 +202,21 @@ function funDefrostingStart() {
 
 function funMicrowaves() {
   if (microwavesStatusPower) {
-    watchLeft.textContent = "--";
+    if (!statusChanges) {
+      watchLeft.textContent = "--";
+      watchRight.textContent = "--";
+      numberDefLeft = 0;
+      numberDefRight = 0;
+    }
+    else {
+      watchLeft.textContent = numberDefLeft;
+      if (numberDefRight === 0) watchRight.textContent = '00'
+      else watchRight.textContent = numberDefRight;
+    }
+    statusChanges = true;
     statusActive(watchColon);
-    watchRight.textContent = "--";
     statusRemove(powerStatusImg);
-    numberDefLeft = 0;
-    numberDefRight = 0;
+
     microwavesStatusTime = true;
     microwavesStatusPower = false;
   }
@@ -220,27 +234,29 @@ function funMicrowaves() {
 }
 
 function funMicrowavesPowerPlus() {
+  statusChanges = false;
   if (microwavesPow < 10) microwavesPow += 2;
   watchLeft.textContent = String(microwavesPow);
 }
 
 function funMicrowavesPowerMinus() {
+  statusChanges = false;
   if (microwavesPow > 2) microwavesPow -= 2;
   watchLeft.textContent = String(microwavesPow);
 }
 
 function funMicrowavesTimePlus() {
   plus(10, 50, 10);
-  watchLeft.textContent = String(numberDefLeft);
+  watchLeft.textContent = numberDefLeft;
   if (numberDefRight === 0) watchRight.textContent = '00';
-  else watchRight.textContent = String(numberDefRight);
+  else watchRight.textContent = numberDefRight;
 }
 
 function funMicrowavesTimeMinus() {
   minus(10, 50, 10);
-  watchLeft.textContent = String(numberDefLeft);
+  watchLeft.textContent = numberDefLeft;
   if (numberDefRight === 0) watchRight.textContent = '00';
-  else watchRight.textContent = String(numberDefRight);
+  else watchRight.textContent = numberDefRight;
 }
 
 function funMicrowavesStart() {
@@ -258,12 +274,12 @@ function funAutoPreparation() {
 }
 
 function funAutoPreparationPlus() {
-  if (defrostingDef === "dEF1") plus(1, 9, 1);
+  if (defrostingDef === "dEF1" && statusChanges) plus(1, 9, 1);
   if (defrostingDef === "dEF2") numberDefRight = 3;
-  if (defrostingDef === "dEF3") plus(1, 9, 1);
+  if (defrostingDef === "dEF3" && statusChanges) plus(1, 9, 1);
   if (defrostingDef === "dEF4") numberDefRight = 3;
+  statusChanges = true;
   statusActive(kgStatusImg);
-  kgStatus = true;
   statusActive(plusMinusStatusImg);
   watchLeft.textContent = numberDefLeft;
   statusActive(watchColon);
@@ -273,12 +289,12 @@ function funAutoPreparationPlus() {
 }
 
 function funAutoPreparationMinus() {
-  if (defrostingDef === "dEF1") minus(1, 9, 1);
+  if (defrostingDef === "dEF1" && statusChanges) minus(1, 9, 1);
   if (defrostingDef === "dEF2") numberDefRight = 3;
-  if (defrostingDef === "dEF3") minus(1, 9, 1);
+  if (defrostingDef === "dEF3" && statusChanges) minus(1, 9, 1);
   if (defrostingDef === "dEF4") numberDefRight = 3;
+  statusChanges = true;
   statusActive(kgStatusImg);
-  kgStatus = true;
   statusActive(plusMinusStatusImg);
   watchLeft.textContent = numberDefLeft;
   statusActive(watchColon);
@@ -329,13 +345,13 @@ function funButtonStart() {
 
 function funButtonStop() {
   numberDefLeft = 0;
-  numberDefRight = 0;
+  numberDefRight = 1;
   numberDef = 0;
   defrostingStatus = false;
   microwavesStatusPower = false;
   microwavesStatusTime = false;
   autoPreparationStatus = false;
-  kgStatus = false;
+  statusChanges = false;
   defrostingDef = "";
   timeDefrosting = 0;
   watchLeft.textContent = "--";
