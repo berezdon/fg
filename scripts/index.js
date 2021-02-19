@@ -23,6 +23,7 @@ let defrostingStatus = false;
 let autoPreparationStatus = false;
 let microwavesStatusPower = false;
 let microwavesStatusTime = false;
+let kgStatus = false;
 let defrostingDef = "";
 let timeDefrosting = 0;
 let clickNumber = 0;
@@ -68,12 +69,15 @@ function funForModes() {
   if (defrostingStatus) watchLeft.textContent = "dE";
   if (autoPreparationStatus) watchLeft.textContent = '';
   statusRemove(watchColon);
-  if (numberDef < 4) {
-    numberDef += 1;
+  if (!kgStatus) {
+    if (numberDef < 4) {
+      numberDef += 1;
+    }
+    else {
+      numberDef = 1;
+    }
   }
-  else {
-    numberDef = 1;
-  }
+  kgStatus = false;
   if (defrostingStatus) watchRight.textContent = "F" + numberDef;
   if (autoPreparationStatus) watchRight.textContent = numberDef;
   defrostingDef = "dEF" + numberDef;
@@ -91,6 +95,7 @@ function funDefrosting() {
 }
 
 function plus(numLeft, numRight, step) {
+  kgStatus = true;
   if (numberDefLeft < numLeft) {
     if (numberDefRight < numRight) numberDefRight += step;
     else {
@@ -105,6 +110,7 @@ function plus(numLeft, numRight, step) {
 }
 
 function minus(numLeft, numRight, step) {
+  kgStatus = true;
   if (numberDef === 3) {
     if (numberDefRight > 2) numberDefRight -= step;
     else {
@@ -257,6 +263,7 @@ function funAutoPreparationPlus() {
   if (defrostingDef === "dEF3") plus(1, 9, 1);
   if (defrostingDef === "dEF4") numberDefRight = 3;
   statusActive(kgStatusImg);
+  kgStatus = true;
   statusActive(plusMinusStatusImg);
   watchLeft.textContent = numberDefLeft;
   statusActive(watchColon);
@@ -271,6 +278,7 @@ function funAutoPreparationMinus() {
   if (defrostingDef === "dEF3") minus(1, 9, 1);
   if (defrostingDef === "dEF4") numberDefRight = 3;
   statusActive(kgStatusImg);
+  kgStatus = true;
   statusActive(plusMinusStatusImg);
   watchLeft.textContent = numberDefLeft;
   statusActive(watchColon);
@@ -280,7 +288,7 @@ function funAutoPreparationMinus() {
 }
 
 function funAutoPreparationStart() {
-  if (watchLeft.textContent !== "dE") {
+  if (watchLeft.textContent !== "") {
     statusRemove(kgStatusImg);
     statusRemove(plusMinusStatusImg);
     const mass = (Number(watchLeft.textContent) + Number(watchRight.textContent) * 0.1).toFixed(1);
@@ -327,6 +335,7 @@ function funButtonStop() {
   microwavesStatusPower = false;
   microwavesStatusTime = false;
   autoPreparationStatus = false;
+  kgStatus = false;
   defrostingDef = "";
   timeDefrosting = 0;
   watchLeft.textContent = "--";
