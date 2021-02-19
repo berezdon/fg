@@ -1,8 +1,8 @@
 .logo {
-  width: 67px;
-  min-height: 72px;
+  width: 100px;
+  min-height: 100px;
   background-size: cover;
   background-repeat: no-repeat;
-  background-image: url("../../images/logo.png");
+  background-image: url("../../images/logo.svg");
   margin: 0 auto;
 }
