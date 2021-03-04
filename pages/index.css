@@ -12,6 +12,7 @@
 @import url(../blocks/status/__element/_microwaves-status/status__element_microwaves-status.css);
 @import url(../blocks/status/__element/_auto-preparation-status/status__element_auto-preparation-status.css);
 @import url(../blocks/status/__element/_defrosting-status/status__element_defrosting-status.css);
+@import url(../blocks/status/__element/_yogurt-status/status__element_yogurt-status.css);
 @import url(../blocks/watch/watch.css);
 @import url(../blocks/watch/__left/watch__left.css);
 @import url(../blocks/watch/__colon/watch__colon.css);
@@ -19,6 +20,7 @@
 @import url(../blocks/status/__element/_minus-plus-status/status__element_minus-plus-status.css);
 @import url(../blocks/status/__element/_power-status/status__element_power-status.css);
 @import url(../blocks/status/__element/_kg-status/status__element_kg-status.css);
+@import url(../blocks/status/__element/_degree-status/status__element_degree-status.css);
 @import url(../blocks/status/_padding_bottom/status_padding_bottom.css);
 @import url(../blocks/status/__element/_active/status__element_active.css);
 @import url(../blocks/panel/__button/panel__button.css);

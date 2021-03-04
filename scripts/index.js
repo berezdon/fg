@@ -4,13 +4,16 @@ statusActive(watchColon);
 const watchRight = document.querySelector(".watch__right");
 const defrosting = document.querySelector(".panel__button_defrosting");
 const microwaves = document.querySelector(".panel__button_microwaves");
+const yogurt = document.querySelector(".panel__button_yogurt");
 const autoPreparation = document.querySelector(".panel__button_auto-preparation");
 const defrostingStatusImg = document.querySelector(".status__element_defrosting-status");
 const microwavesStatusImg = document.querySelector(".status__element_microwaves-status");
 const autoPreparationStatusImg = document.querySelector(".status__element_auto-preparation-status");
+const yogurtStatusImg = document.querySelector(".status__element_yogurt-status");
 const kgStatusImg = document.querySelector(".status__element_kg-status");
 const powerStatusImg = document.querySelector(".status__element_power-status");
 const plusMinusStatusImg = document.querySelector(".status__element_minus-plus-status");
+const degreeStatusImg = document.querySelector(".status__element_degree-status");
 const buttonMinus = document.querySelector(".panel__button_minus");
 const buttonPlus = document.querySelector(".panel__button_plus");
 const buttonStart = document.querySelector(".panel__button_start");
@@ -24,11 +27,12 @@ let autoPreparationStatus = false;
 let microwavesStatusPower = false;
 let microwavesStatusTime = false;
 let statusChanges = false;
+let yogurtStatus = false;
+let startYogurt = false;
 let defrostingDef = "";
 let timeDefrosting = 0;
 let clickNumber = 0;
-let watchLeftTime = '';
-let watchRightTime = '';
+
 const autoPreparationTime = {
   dEF1: {
     '0.1': 1.5,
@@ -316,11 +320,44 @@ function funAutoPreparationStart() {
   }
 }
 
+function funYogurt () {
+  if (!yogurtStatus) funButtonStop();
+  yogurtStatus = true;
+  statusActive(yogurtStatusImg);
+  statusActive(degreeStatusImg);
+  numberDefLeft = 2;
+  numberDefRight = 0;
+  watchLeft.textContent = '2';
+  statusRemove(watchColon);
+  watchRight.textContent = '0';
+}
+
+function funYogurtPlus() {
+  if (!startYogurt) {
+    plus(9, 9, 1);
+    watchLeft.textContent = numberDefLeft;
+    watchRight.textContent = numberDefRight;
+  }
+}
+
+function funYogurtMinus() {
+  if (!startYogurt) {
+    minus(9, 9, 1);
+    watchLeft.textContent = numberDefLeft;
+    watchRight.textContent = numberDefRight;
+  }
+}
+
+function startFunYogurt() {
+  startYogurt = true;
+}
+
 function funButtonPlus() {
   if (defrostingStatus) funDefrostingPlus();
   if (microwavesStatusPower) funMicrowavesPowerPlus();
   if (microwavesStatusTime) funMicrowavesTimePlus();
   if (autoPreparationStatus) funAutoPreparationPlus();
+  if (yogurtStatus) funYogurtPlus();
 }
 
 function funButtonMinus() {
@@ -328,6 +365,7 @@ function funButtonMinus() {
   if (microwavesStatusPower) funMicrowavesPowerMinus();
   if (microwavesStatusTime) funMicrowavesTimeMinus();
   if (autoPreparationStatus) funAutoPreparationMinus();
+  if (yogurtStatus) funYogurtMinus();
 }
 
 function funButtonStart() {
@@ -341,6 +379,9 @@ function funButtonStart() {
   if (autoPreparationStatus) {
     if (clickNumber === 1) funAutoPreparationStart();
   }
+  if (yogurtStatus) {
+    startFunYogurt();
+  }
 }
 
 function funButtonStop() {
@@ -352,6 +393,8 @@ function funButtonStop() {
   microwavesStatusTime = false;
   autoPreparationStatus = false;
   statusChanges = false;
+  yogurtStatus = false;
+  startYogurt = false;
   defrostingDef = "";
   timeDefrosting = 0;
   watchLeft.textContent = "--";
@@ -361,15 +404,18 @@ function funButtonStop() {
   statusRemove(defrostingStatusImg);
   statusRemove(microwavesStatusImg);
   statusRemove(autoPreparationStatusImg);
+  statusRemove(yogurtStatusImg);
   statusRemove(kgStatusImg);
   statusRemove(powerStatusImg);
   statusRemove(plusMinusStatusImg);
+  statusRemove(degreeStatusImg);
   clickNumber = 0;
   microwavesPow = 2;
 }
 
 defrosting.addEventListener("mousedown", funDefrosting);
 microwaves.addEventListener("mousedown", funMicrowaves);
+yogurt.addEventListener("click", funYogurt);
 autoPreparation.addEventListener("mousedown", funAutoPreparation);
 buttonPlus.addEventListener("mousedown", funButtonPlus);
 buttonMinus.addEventListener("mousedown", funButtonMinus);
