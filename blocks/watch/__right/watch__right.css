@@ -1,3 +1,6 @@
 .watch__right {
   justify-self: flex-start;
+  color: white;
+  font-size: 60px;
+  line-height: 1;
 }

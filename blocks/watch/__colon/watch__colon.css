@@ -1,3 +1,6 @@
 .watch__colon {
   display: none;
+  color: white;
+  font-size: 60px;
+  line-height: 1;
 }
