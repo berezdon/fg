@@ -1,7 +1,6 @@
 .page {
   zoom: 0.7;
   width: 100%;
-  min-width: 320px;
   display: flex;
   justify-content: center;
   font-family: Arial, sans-serif;

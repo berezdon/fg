@@ -15,3 +15,21 @@
 
   }
 }
+
+@-moz-document url-prefix(){
+  .microwave {
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: calc(100vw / (400 / 1084));
+    min-height: auto;
+  }
+
+  @media screen and (min-width: 400px){
+    .microwave {
+      width: 404px;
+      background-size: cover;
+      height: 1084px;
+    }
+  }
+}
